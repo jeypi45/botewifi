@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bote WiFi System</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: rgb(34, 40, 49);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        background: rgb(57, 62, 70);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        padding: 40px;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+      }
+      h1 {
+        color: rgb(238, 238, 238);
+        margin-bottom: 10px;
+        font-size: 2em;
+      }
+      .subtitle {
+        color: rgb(238, 238, 238);
+        margin-bottom: 30px;
+        font-size: 0.9em;
+        opacity: 0.8;
+      }
+
+      .status-display {
+        background: rgb(34, 40, 49);
+        border-radius: 15px;
+        padding: 30px;
+        margin: 30px 0;
+        transition: all 0.3s ease;
+      }
+      .status-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+      }
+      .motion-detected {
+        background: rgba(0, 173, 181, 0.2);
+        border: 3px solid rgb(0, 173, 181);
+        animation: pulse 1s infinite;
+      }
+      .motion-detected .status-icon {
+        transform: scale(1.2);
+      }
+      .no-motion {
+        background: rgba(0, 173, 181, 0.1);
+        border: 3px solid rgba(0, 173, 181, 0.5);
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      .status-text {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .motion-detected .status-text {
+        color: rgb(0, 173, 181);
+      }
+      .no-motion .status-text {
+        color: rgb(238, 238, 238);
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin: 20px 0;
+      }
+      .info-card:last-child {
+        grid-column: 1 / -1;
+      }
+      .info-card {
+        background: rgb(34, 40, 49);
+        border-radius: 10px;
+        padding: 15px;
+        border-left: 4px solid rgb(0, 173, 181);
+      }
+      .info-label {
+        color: rgba(238, 238, 238, 0.7);
+        font-size: 0.8em;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .info-value {
+        color: rgb(0, 173, 181);
+        font-weight: bold;
+        font-size: 1.1em;
+        word-break: break-all;
+      }
+
+      .btn {
+        background: rgb(0, 173, 181);
+        color: rgb(238, 238, 238);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        margin: 5px;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 173, 181, 0.5);
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .error-message {
+        background: rgba(220, 53, 69, 0.2);
+        color: rgb(238, 238, 238);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border-left: 4px solid #dc3545;
+        display: none;
+      }
+
+      .footer {
+        margin-top: 30px;
+        color: rgba(238, 238, 238, 0.5);
+        font-size: 0.8em;
+      }
+
+      /* Modal Styles */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal {
+        background: rgb(57, 62, 70);
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 450px;
+        width: 90%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.3s ease;
+        border: 2px solid rgb(0, 173, 181);
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-icon {
+        font-size: 2.5em;
+        margin-right: 15px;
+      }
+
+      .modal-title {
+        color: rgb(238, 238, 238);
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+
+      .modal-content {
+        color: rgba(238, 238, 238, 0.9);
+        font-size: 1em;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        white-space: pre-line;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      .modal-btn {
+        padding: 10px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .modal-btn-primary {
+        background: rgb(0, 173, 181);
+        color: rgb(238, 238, 238);
+      }
+
+      .modal-btn-primary:hover {
+        box-shadow: 0 4px 15px rgba(0, 173, 181, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .modal-btn-secondary {
+        background: rgb(34, 40, 49);
+        color: rgb(238, 238, 238);
+        border: 2px solid rgb(0, 173, 181);
+      }
+
+      .modal-btn-secondary:hover {
+        background: rgba(0, 173, 181, 0.1);
+      }
+
+      .modal-btn-danger {
+        background: rgb(220, 53, 69);
+        color: rgb(238, 238, 238);
+      }
+
+      .modal-btn-danger:hover {
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.5);
+        transform: translateY(-2px);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 1.5em;
+        }
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
+        .modal {
+          padding: 20px;
+        }
+        .modal-buttons {
+          flex-direction: column;
+        }
+        .modal-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🍾 Bote WiFi System</h1>
+      <p class="subtitle">
+        Click "Start Session" → Insert Bottles → 1 Bottle = 5 Minutes
+      </p>
+
+      <!-- Bote WiFi Timer Display -->
+      <div id="wifiStatus" class="status-display no-motion">
+        <div class="status-icon" id="wifiIcon">🌐</div>
+        <div class="status-text" id="wifiStatusText">Internet Disconnected</div>
+        <div
+          style="
+            color: rgb(238, 238, 238);
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 10px;
+          "
+          id="timeDisplay"
+        >
+          0:00
+        </div>
+        <div style="color: rgba(238, 238, 238, 0.7); font-size: 0.9em">
+          Insert Bottle to Add Time
+        </div>
+      </div>
+
+      <!-- Bottle Detection Display -->
+      <div
+        id="statusDisplay"
+        class="status-display no-motion"
+        style="margin-top: 20px"
+      >
+        <div class="status-icon">🔍</div>
+        <div class="status-text" id="statusText">Session Inactive</div>
+        <div
+          style="color: rgba(238, 238, 238, 0.7); font-size: 0.9em"
+          id="sessionHint"
+        >
+          Click "Start Session" to begin
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-label">My Bottles</div>
+          <div class="info-value" id="bottlesInserted">0</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">My Time Left</div>
+          <div class="info-value" id="timeRemaining">0:00</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">Pending Bottles</div>
+          <div class="info-value" id="pendingBottles">0</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">Total Users</div>
+          <div class="info-value" id="totalUsers">0</div>
+        </div>
+      </div>
+
+      <div class="error-message" id="errorMessage"></div>
+
+      <!-- Main Control Button -->
+      <div style="margin: 20px 0">
+        <button
+          class="btn"
+          id="sessionBtn"
+          onclick="startSession()"
+          style="
+            font-size: 1.2em;
+            padding: 15px 40px;
+            background: rgb(0, 173, 181);
+            box-shadow: 0 4px 15px rgba(0, 173, 181, 0.3);
+          "
+        >
+          🚀 Start Session
+        </button>
+      </div>
+
+      <div>
+        <button
+          class="btn"
+          onclick="claimBottle()"
+          style="background: rgb(0, 173, 181)"
+        >
+          🎁 Claim Bottle
+        </button>
+        <button
+          class="btn"
+          onclick="disconnectInternet()"
+          style="
+            background: rgb(34, 40, 49);
+            border: 2px solid rgb(0, 173, 181);
+          "
+        >
+          🔌 Disconnect
+        </button>
+        <button
+          class="btn"
+          onclick="testPin()"
+          style="
+            background: rgb(34, 40, 49);
+            border: 2px solid rgb(0, 173, 181);
+          "
+        >
+          🧪 Test Sensor
+        </button>
+        <button
+          class="btn"
+          onclick="location.reload()"
+          style="
+            background: rgb(34, 40, 49);
+            border: 2px solid rgb(0, 173, 181);
+          "
+        >
+          🔄 Refresh
+        </button>
+      </div>
+
+      <div style="margin-top: 20px">
+        <a
+          href="/guide"
+          class="btn"
+          style="
+            background: rgb(34, 40, 49);
+            border: 2px solid rgb(0, 173, 181);
+            text-decoration: none;
+            display: inline-block;
+          "
+        >
+          📖 User Manual
+        </a>
+        <a
+          href="/qrcode"
+          class="btn"
+          style="
+            background: rgb(34, 40, 49);
+            border: 2px solid rgb(0, 173, 181);
+            text-decoration: none;
+            display: inline-block;
+          "
+        >
+          📱 QR Code
+        </a>
+      </div>
+
+      <div class="footer">Auto-updating • 5 minutes per bottle</div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-icon" id="modalIcon">ℹ️</div>
+          <div class="modal-title" id="modalTitle">Notification</div>
+        </div>
+        <div class="modal-content" id="modalContent">
+          This is a modal message.
+        </div>
+        <div class="modal-buttons" id="modalButtons">
+          <button class="modal-btn modal-btn-primary" onclick="closeModal()">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const FLASK_URL = "http://10.0.0.1:5000"; // Flask server URL
+
+      // Generate or retrieve unique device ID
+      let deviceId = localStorage.getItem("deviceId");
+      if (!deviceId) {
+        deviceId =
+          "device_" +
+          Math.random().toString(36).substr(2, 9) +
+          "_" +
+          Date.now();
+        localStorage.setItem("deviceId", deviceId);
+      }
+      console.log("Device ID:", deviceId);
+
+      let isUpdating = false;
+      let lastPendingBottles = 0;
+
+      // Modal Functions
+      function showModal(title, content, icon = "ℹ️", buttons = null) {
+        const modal = document.getElementById("modalOverlay");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalContent = document.getElementById("modalContent");
+        const modalIcon = document.getElementById("modalIcon");
+        const modalButtons = document.getElementById("modalButtons");
+
+        modalTitle.textContent = title;
+        modalContent.textContent = content;
+        modalIcon.textContent = icon;
+
+        if (buttons) {
+          modalButtons.innerHTML = buttons;
+        } else {
+          modalButtons.innerHTML = `
+            <button class="modal-btn modal-btn-primary" onclick="closeModal()">OK</button>
+          `;
+        }
+
+        modal.classList.add("active");
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("modalOverlay");
+        modal.classList.remove("active");
+      }
+
+      function showConfirmModal(title, content, icon, onConfirm) {
+        const buttons = `
+          <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+          <button class="modal-btn modal-btn-danger" onclick="closeModal(); (${onConfirm})()">Confirm</button>
+        `;
+        showModal(title, content, icon, buttons);
+      }
+
+      // Close modal when clicking outside
+      document.addEventListener("click", function (event) {
+        const modal = document.getElementById("modalOverlay");
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      async function updateStatus() {
+        if (isUpdating) return;
+        isUpdating = true;
+
+        try {
+          // Fetch motion detection status
+          const statusResponse = await fetch(`${FLASK_URL}/status`, {
+            headers: { "X-Device-ID": deviceId },
+          });
+          const statusData = await statusResponse.json();
+
+          // Fetch WiFi timer status
+          const timeResponse = await fetch(`${FLASK_URL}/get_time`, {
+            headers: { "X-Device-ID": deviceId },
+          });
+          const timeData = await timeResponse.json();
+
+          // Auto-claim bottles when new ones are detected
+          if (
+            statusData.pending_bottles > 0 &&
+            statusData.pending_bottles > lastPendingBottles
+          ) {
+            claimBottle();
+          }
+          lastPendingBottles = statusData.pending_bottles;
+
+          // Update motion detection display
+          const statusDisplay = document.getElementById("statusDisplay");
+          const statusText = document.getElementById("statusText");
+          const sessionHint = document.getElementById("sessionHint");
+          const sessionBtn = document.getElementById("sessionBtn");
+
+          if (statusData.session_active) {
+            if (statusData.motion_detected) {
+              statusDisplay.className = "status-display motion-detected";
+              statusText.textContent = "✨ Bottle Detected!";
+              sessionHint.textContent = "Bottle added automatically!";
+            } else {
+              statusDisplay.className = "status-display no-motion";
+              statusText.textContent = "🟢 Session Active";
+              sessionHint.textContent = "Insert bottles now";
+            }
+            sessionBtn.textContent = "🛑 End Session";
+            sessionBtn.onclick = disconnectInternet;
+            sessionBtn.style.background = "rgb(220, 53, 69)";
+            sessionBtn.style.boxShadow = "0 4px 15px rgba(220, 53, 69, 0.3)";
+          } else {
+            statusDisplay.className = "status-display no-motion";
+            statusText.textContent = "⚫ Session Inactive";
+            sessionHint.textContent = 'Click "Start Session" to begin';
+            sessionBtn.textContent = "🚀 Start Session";
+            sessionBtn.onclick = startSession;
+            sessionBtn.style.background = "rgb(0, 173, 181)";
+            sessionBtn.style.boxShadow = "0 4px 15px rgba(0, 173, 181, 0.3)";
+          }
+
+          // Update WiFi status display
+          const wifiStatus = document.getElementById("wifiStatus");
+          const wifiStatusText = document.getElementById("wifiStatusText");
+          const wifiIcon = document.getElementById("wifiIcon");
+          const timeDisplay = document.getElementById("timeDisplay");
+          const internetStatus = document.getElementById("internetStatus");
+          const timeRemaining = document.getElementById("timeRemaining");
+          const bottlesInserted = document.getElementById("bottlesInserted");
+
+          if (timeData.internet_active && timeData.time_remaining > 0) {
+            wifiStatus.className = "status-display motion-detected";
+            wifiStatusText.textContent = "✅ Internet Active";
+            wifiIcon.textContent = "🌐";
+            timeDisplay.textContent = timeData.formatted_time;
+            internetStatus.textContent = "Connected ✓";
+            timeRemaining.textContent = timeData.formatted_time;
+
+            // Warning when time is running out (< 1 minute)
+            if (timeData.time_remaining < 60) {
+              timeDisplay.style.color = "#dc3545";
+            } else {
+              timeDisplay.style.color = "rgb(238, 238, 238)";
+            }
+          } else {
+            wifiStatus.className = "status-display no-motion";
+            wifiStatusText.textContent = "❌ Internet Disconnected";
+            wifiIcon.textContent = "🔴";
+            timeDisplay.textContent = "0:00";
+            internetStatus.textContent = "Disconnected";
+            timeRemaining.textContent = "0:00";
+            timeDisplay.style.color = "rgba(238, 238, 238, 0.5)";
+          }
+
+          // Update bottle count and user info
+          const pendingBottlesEl = document.getElementById("pendingBottles");
+          const totalUsersEl = document.getElementById("totalUsers");
+
+          bottlesInserted.textContent = timeData.bottles_inserted || 0;
+          if (pendingBottlesEl)
+            pendingBottlesEl.textContent = statusData.pending_bottles || 0;
+          if (totalUsersEl)
+            totalUsersEl.textContent = timeData.total_users || 0;
+
+          // Hide error message
+          document.getElementById("errorMessage").style.display = "none";
+        } catch (error) {
+          console.error("Error fetching status:", error);
+          const errorMessage = document.getElementById("errorMessage");
+          errorMessage.textContent =
+            "⚠️ Error connecting to system: " + error.message;
+          errorMessage.style.display = "block";
+        } finally {
+          isUpdating = false;
+        }
+      }
+
+      async function startSession() {
+        try {
+          const response = await fetch(`${FLASK_URL}/start_session`);
+          const data = await response.json();
+
+          if (data.success) {
+            showModal(
+              "Session Started",
+              `${data.message}\n\nIR Sensor is now active!\nEach bottle inserted will be available to claim\nClick "Claim Bottle" to add time to YOUR account`,
+              "✅"
+            );
+            updateStatus(); // Refresh display immediately
+          } else {
+            showModal("Error", data.error, "❌");
+          }
+        } catch (error) {
+          showModal(
+            "Connection Error",
+            "Error starting session: " + error.message,
+            "⚠️"
+          );
+        }
+      }
+
+      async function claimBottle() {
+        try {
+          const response = await fetch(
+            `${FLASK_URL}/claim_bottle?device_id=${deviceId}`,
+            {
+              headers: { "X-Device-ID": deviceId },
+            }
+          );
+          const data = await response.json();
+
+          if (data.success) {
+            console.log(
+              `✅ ${data.message} - Bottles: ${
+                data.bottles
+              }, Time: ${Math.floor(data.time_remaining / 60)}min`
+            );
+            updateStatus(); // Refresh display immediately
+          }
+        } catch (error) {
+          console.error("Error claiming bottle:", error.message);
+        }
+      }
+
+      async function testPin() {
+        try {
+          const response = await fetch(`${FLASK_URL}/test_pin`);
+          const data = await response.json();
+
+          if (data.error) {
+            showModal("Test Error", data.error, "❌");
+          } else {
+            showModal(
+              "Pin Test Results",
+              `Pin: ${data.pin}\nValue: ${data.value}\nStatus: ${data.status}`,
+              "🔧"
+            );
+          }
+        } catch (error) {
+          showModal(
+            "Connection Error",
+            "Error testing pin: " + error.message,
+            "⚠️"
+          );
+        }
+      }
+
+      async function disconnectInternet() {
+        showConfirmModal(
+          "Disconnect Internet",
+          "Are you sure you want to disconnect internet and clear remaining time?",
+          "⚠️",
+          async function confirmDisconnect() {
+            try {
+              const response = await fetch(`${FLASK_URL}/disconnect_internet`);
+              const data = await response.json();
+
+              if (data.success) {
+                showModal("Disconnected", data.message, "✅");
+                updateStatus(); // Refresh display immediately
+              } else {
+                showModal("Error", data.error, "❌");
+              }
+            } catch (error) {
+              showModal(
+                "Connection Error",
+                "Error disconnecting internet: " + error.message,
+                "⚠️"
+              );
+            }
+          }
+        );
+      }
+
+      // Update status immediately on load
+      updateStatus();
+
+      // Update status every 500ms
+      setInterval(updateStatus, 500);
+    </script>
+  </body>
+</html>

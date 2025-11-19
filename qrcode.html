@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bote WiFi - QR Code</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: rgb(34, 40, 49);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        background: rgb(57, 62, 70);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        padding: 40px;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+      }
+      h1 {
+        color: rgb(0, 173, 181);
+        margin-bottom: 10px;
+        font-size: 2em;
+      }
+      .subtitle {
+        color: rgba(238, 238, 238, 0.8);
+        margin-bottom: 30px;
+        font-size: 1em;
+      }
+      .qr-box {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        display: inline-block;
+        margin: 20px auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      #qrcode {
+        margin: 0 auto;
+      }
+      .info {
+        background: rgb(34, 40, 49);
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 30px;
+        border-left: 4px solid rgb(0, 173, 181);
+      }
+      .info h2 {
+        color: rgb(0, 173, 181);
+        margin-bottom: 15px;
+        font-size: 1.3em;
+      }
+      .info p {
+        color: rgba(238, 238, 238, 0.9);
+        margin-bottom: 10px;
+        line-height: 1.6;
+      }
+      .url {
+        background: rgba(0, 173, 181, 0.2);
+        padding: 10px;
+        border-radius: 8px;
+        color: rgb(0, 173, 181);
+        font-weight: bold;
+        margin: 15px 0;
+        word-break: break-all;
+      }
+      .btn {
+        display: inline-block;
+        background: rgb(0, 173, 181);
+        color: rgb(238, 238, 238);
+        padding: 12px 30px;
+        border-radius: 25px;
+        text-decoration: none;
+        margin: 10px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 173, 181, 0.5);
+      }
+      .btn-secondary {
+        background: rgb(34, 40, 49);
+        border: 2px solid rgb(0, 173, 181);
+      }
+      .instructions {
+        color: rgba(238, 238, 238, 0.7);
+        font-size: 0.9em;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🍾 Bote WiFi System</h1>
+      <p class="subtitle">Scan QR Code for User Manual</p>
+
+      <div class="qr-box">
+        <div id="qrcode"></div>
+      </div>
+
+      <p class="instructions">
+        📱 Scan this QR code with your phone camera to access the complete user
+        manual and guide
+      </p>
+
+      <div class="info">
+        <h2>📖 User Manual URL</h2>
+        <p>
+          This QR code works from anywhere! Users can scan it even before
+          connecting to WiFi.
+        </p>
+        <div class="url" id="guideUrl">
+          https://jeypi45.github.io/botewifi/guide.html
+        </div>
+        <button class="btn" onclick="copyUrl()">📋 Copy URL</button>
+        <a
+          href="https://jeypi45.github.io/botewifi/guide.html"
+          target="_blank"
+          class="btn btn-secondary"
+          >📖 Open Guide</a
+        >
+      </div>
+
+      <div class="info" style="margin-top: 15px">
+        <p style="font-size: 0.9em">
+          💡 <strong>Tip:</strong> Print this QR code and display it near your
+          Bote WiFi system. Users can scan it with their phone camera from
+          anywhere to read the instructions!
+        </p>
+      </div>
+
+      <div style="margin-top: 20px">
+        <a href="/" class="btn btn-secondary">🏠 Back to Home</a>
+        <button class="btn" onclick="downloadQR()">💾 Download QR Code</button>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+      // Use GitHub Pages URL (works from anywhere) or local URL (works only on WiFi network)
+      const githubPagesUrl = "https://jeypi45.github.io/botewifi/guide.html";
+      const localUrl = "http://10.0.0.1:5000/guide";
+
+      // Default to GitHub Pages URL so QR code works from anywhere
+      const guideUrl = githubPagesUrl;
+
+      // Update displayed URL
+      document.getElementById("guideUrl").textContent = guideUrl;
+
+      new QRCode(document.getElementById("qrcode"), {
+        text: guideUrl,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+
+      function copyUrl() {
+        const url = document.getElementById("guideUrl").textContent;
+        navigator.clipboard
+          .writeText(url)
+          .then(() => {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = "✅ Copied!";
+            btn.style.background = "rgb(40, 167, 69)";
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.style.background = "rgb(0, 173, 181)";
+            }, 2000);
+          })
+          .catch((err) => {
+            alert("Failed to copy URL: " + err);
+          });
+      }
+
+      function downloadQR() {
+        const canvas = document.querySelector("#qrcode canvas");
+        if (canvas) {
+          const link = document.createElement("a");
+          link.download = "bote-wifi-guide-qr.png";
+          link.href = canvas.toDataURL();
+          link.click();
+        } else {
+          alert("QR Code not ready yet, please wait a moment and try again.");
+        }
+      }
+    </script>
+  </body>
+</html>

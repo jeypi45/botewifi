@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bote WiFi - User Manual</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: rgb(34, 40, 49);
+        color: rgb(238, 238, 238);
+        padding: 20px;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgb(57, 62, 70);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+      h1 {
+        color: rgb(0, 173, 181);
+        text-align: center;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        text-align: center;
+        color: rgba(238, 238, 238, 0.7);
+        margin-bottom: 40px;
+        font-size: 1.1em;
+      }
+      .section {
+        background: rgb(34, 40, 49);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-left: 4px solid rgb(0, 173, 181);
+      }
+      h2 {
+        color: rgb(0, 173, 181);
+        margin-bottom: 15px;
+        font-size: 1.8em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      h3 {
+        color: rgb(238, 238, 238);
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 1.3em;
+      }
+      .step {
+        background: rgba(0, 173, 181, 0.1);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        border-left: 3px solid rgb(0, 173, 181);
+      }
+      .step-number {
+        display: inline-block;
+        background: rgb(0, 173, 181);
+        color: rgb(238, 238, 238);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      .highlight {
+        color: rgb(0, 173, 181);
+        font-weight: bold;
+      }
+      .warning {
+        background: rgba(220, 53, 69, 0.2);
+        border-left: 3px solid rgb(220, 53, 69);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+      }
+      .info {
+        background: rgba(0, 173, 181, 0.2);
+        border-left: 3px solid rgb(0, 173, 181);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+      }
+      ul {
+        margin-left: 20px;
+        margin-top: 10px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      .btn {
+        display: inline-block;
+        background: rgb(0, 173, 181);
+        color: rgb(238, 238, 238);
+        padding: 12px 30px;
+        border-radius: 25px;
+        text-decoration: none;
+        margin: 20px auto;
+        display: block;
+        width: fit-content;
+        transition: all 0.3s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 173, 181, 0.5);
+      }
+      .icon {
+        font-size: 1.5em;
+      }
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 2em;
+        }
+        h2 {
+          font-size: 1.5em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🍾 Bote WiFi System</h1>
+      <p class="subtitle">Complete User Manual & Guide</p>
+
+      <div class="section">
+        <h2>🎯 What is Bote WiFi?</h2>
+        <p>
+          Bote WiFi is an innovative internet access system where users earn
+          WiFi time by inserting empty bottles. Each bottle gives you 5 minutes
+          of internet access!
+        </p>
+        <div class="info">
+          <strong>💡 Quick Facts:</strong>
+          <ul>
+            <li>1 Bottle = 5 Minutes of Internet</li>
+            <li>Multiple users can use the system simultaneously</li>
+            <li>Each user has their own time balance</li>
+            <li>Time automatically starts when you claim bottles</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🚀 Getting Started</h2>
+
+        <div class="step">
+          <span class="step-number">1</span>
+          <strong>Connect to WiFi</strong>
+          <p>Connect your device to the Bote WiFi network.</p>
+        </div>
+
+        <div class="step">
+          <span class="step-number">2</span>
+          <strong>Open Browser</strong>
+          <p>
+            Open your web browser and navigate to:
+            <span class="highlight">http://10.0.0.1:5000</span>
+          </p>
+        </div>
+
+        <div class="step">
+          <span class="step-number">3</span>
+          <strong>Start Using</strong>
+          <p>
+            Follow the on-screen instructions to start your session and insert
+            bottles.
+          </p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>📱 How to Use</h2>
+
+        <h3>For First-Time Users:</h3>
+
+        <div class="step">
+          <span class="step-number">1</span>
+          <strong>Click "Start Session" Button</strong>
+          <p>
+            This activates the bottle detection system. The system will now
+            detect any bottles inserted.
+          </p>
+        </div>
+
+        <div class="step">
+          <span class="step-number">2</span>
+          <strong>Insert Your Bottles</strong>
+          <p>
+            Insert empty bottles into the designated slot. The system will
+            automatically detect each bottle.
+          </p>
+        </div>
+
+        <div class="step">
+          <span class="step-number">3</span>
+          <strong>Claim Your Bottles</strong>
+          <p>
+            Click the <span class="highlight">🎁 Claim Bottle</span> button to
+            add the detected bottles to YOUR account. This gives you 5 minutes
+            per bottle!
+          </p>
+        </div>
+
+        <div class="info">
+          <strong>💡 Pro Tip:</strong> The system auto-claims bottles for you,
+          but you can also manually claim them by clicking the Claim Bottle
+          button.
+        </div>
+
+        <div class="step">
+          <span class="step-number">4</span>
+          <strong>Enjoy Internet Access</strong>
+          <p>
+            Once you claim bottles, internet access starts automatically! Watch
+            your timer count down.
+          </p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🎮 Control Panel Guide</h2>
+
+        <h3>Main Display Sections:</h3>
+
+        <div class="step">
+          <strong>🌐 Internet Status Display</strong>
+          <ul>
+            <li>
+              <span class="highlight">✅ Internet Active</span> - You're
+              connected with time remaining
+            </li>
+            <li>
+              <span class="highlight">❌ Internet Disconnected</span> - No
+              active time or session ended
+            </li>
+            <li>
+              Shows your remaining time in
+              <span class="highlight">minutes:seconds</span> format
+            </li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <strong>🔍 Session Status Display</strong>
+          <ul>
+            <li>
+              <span class="highlight">✨ Bottle Detected!</span> - System
+              detected a new bottle
+            </li>
+            <li>
+              <span class="highlight">🟢 Session Active</span> - Ready to accept
+              bottles
+            </li>
+            <li>
+              <span class="highlight">⚫ Session Inactive</span> - Click Start
+              Session to begin
+            </li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <strong>📊 Information Cards</strong>
+          <ul>
+            <li><strong>My Bottles:</strong> Total bottles you've claimed</li>
+            <li><strong>My Time Left:</strong> Your remaining internet time</li>
+            <li>
+              <strong>Pending Bottles:</strong> Bottles detected but not yet
+              claimed
+            </li>
+            <li>
+              <strong>Total Users:</strong> Number of users currently using the
+              system
+            </li>
+          </ul>
+        </div>
+
+        <h3>Available Buttons:</h3>
+
+        <div class="step">
+          <strong>🚀 Start Session</strong>
+          <p>
+            Activates the bottle detection system. Click this first before
+            inserting bottles!
+          </p>
+        </div>
+
+        <div class="step">
+          <strong>🛑 End Session</strong>
+          <p>
+            Appears after starting a session. Stops bottle detection and
+            disconnects all users.
+          </p>
+        </div>
+
+        <div class="step">
+          <strong>🎁 Claim Bottle</strong>
+          <p>Manually claim pending bottles and add time to your account.</p>
+        </div>
+
+        <div class="step">
+          <strong>🔌 Disconnect</strong>
+          <p>Immediately disconnect internet and end all active sessions.</p>
+        </div>
+
+        <div class="step">
+          <strong>🧪 Test Sensor</strong>
+          <p>Test if the bottle detection sensor is working properly.</p>
+        </div>
+
+        <div class="step">
+          <strong>🔄 Refresh</strong>
+          <p>Reload the page and reset your connection.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>⚠️ Important Notes</h2>
+
+        <div class="warning">
+          <strong>⚠️ Session Management:</strong>
+          <ul>
+            <li>
+              Always click <span class="highlight">"Start Session"</span> before
+              inserting bottles
+            </li>
+            <li>Bottles inserted before starting a session won't be counted</li>
+            <li>Your time is personal - other users can't use your time</li>
+          </ul>
+        </div>
+
+        <div class="warning">
+          <strong>⚠️ Time Management:</strong>
+          <ul>
+            <li>Time starts counting immediately after claiming bottles</li>
+            <li>When time reaches 0, internet disconnects automatically</li>
+            <li>Add more bottles anytime to extend your session</li>
+            <li>Closing the browser doesn't stop your timer</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>❓ Troubleshooting</h2>
+
+        <h3>Can't connect to the system?</h3>
+        <ul>
+          <li>Make sure you're connected to the Bote WiFi network</li>
+          <li>
+            Try typing <span class="highlight">http://10.0.0.1:5000</span> in
+            your browser
+          </li>
+          <li>Clear your browser cache and reload</li>
+          <li>Try a different browser</li>
+        </ul>
+
+        <h3>Bottle not detected?</h3>
+        <ul>
+          <li>Ensure session is started (click Start Session first)</li>
+          <li>Check if bottle is properly inserted</li>
+          <li>Click "Test Sensor" to verify sensor is working</li>
+          <li>Wait 2-3 seconds between bottle insertions</li>
+        </ul>
+
+        <h3>No internet after claiming bottles?</h3>
+        <ul>
+          <li>Check if your time display shows remaining time</li>
+          <li>Look for "✅ Internet Active" status</li>
+          <li>Try clicking Refresh button</li>
+          <li>Disconnect and reconnect to WiFi</li>
+        </ul>
+
+        <h3>Time not counting down?</h3>
+        <ul>
+          <li>The page auto-updates every 0.5 seconds</li>
+          <li>Click Refresh if display seems frozen</li>
+          <li>Check your internet connection</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>💡 Tips & Best Practices</h2>
+        <ul>
+          <li>✅ Always start a session before inserting bottles</li>
+          <li>✅ Claim bottles immediately to secure your time</li>
+          <li>✅ Keep the browser page open to monitor your time</li>
+          <li>
+            ✅ Insert bottles one at a time, waiting 2-3 seconds between each
+          </li>
+          <li>✅ Add more bottles before your time runs out</li>
+          <li>
+            ✅ Use the Test Sensor feature if you're unsure if system is working
+          </li>
+          <li>❌ Don't close the browser if you want to track your time</li>
+          <li>❌ Don't insert bottles before starting the session</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>📞 Need Help?</h2>
+        <p>If you're experiencing issues or have questions:</p>
+        <ul>
+          <li>Check the troubleshooting section above</li>
+          <li>Click the "Test Sensor" button to diagnose issues</li>
+          <li>Try the "Refresh" button to reset your connection</li>
+          <li>Contact the system administrator if problems persist</li>
+        </ul>
+      </div>
+
+      <a href="index.html" class="btn">🚀 Go to Bote WiFi System</a>
+    </div>
+  </body>
+</html>

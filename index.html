@@ -294,9 +294,7 @@
   <body>
     <div class="container">
       <h1>🍾 Bote WiFi System</h1>
-      <p class="subtitle">
-        Click "Start Session" → Insert Bottles → 1 Bottle = 5 Minutes
-      </p>
+      <p class="subtitle">Insert Bottles → 1 Bottle = 5 Minutes</p>
 
       <!-- Bote WiFi Timer Display -->
       <div id="wifiStatus" class="status-display no-motion">
@@ -330,7 +328,7 @@
           style="color: rgba(238, 238, 238, 0.7); font-size: 0.9em"
           id="sessionHint"
         >
-          Click "Start Session" to begin
+          Ready to accept bottles
         </div>
       </div>
 
@@ -368,47 +366,7 @@
             box-shadow: 0 4px 15px rgba(0, 173, 181, 0.3);
           "
         >
-          🚀 Start Session
-        </button>
-      </div>
-
-      <div>
-        <button
-          class="btn"
-          onclick="claimBottle()"
-          style="background: rgb(0, 173, 181)"
-        >
-          🎁 Claim Bottle
-        </button>
-        <button
-          class="btn"
-          onclick="disconnectInternet()"
-          style="
-            background: rgb(34, 40, 49);
-            border: 2px solid rgb(0, 173, 181);
-          "
-        >
-          🔌 Disconnect
-        </button>
-        <button
-          class="btn"
-          onclick="testPin()"
-          style="
-            background: rgb(34, 40, 49);
-            border: 2px solid rgb(0, 173, 181);
-          "
-        >
-          🧪 Test Sensor
-        </button>
-        <button
-          class="btn"
-          onclick="location.reload()"
-          style="
-            background: rgb(34, 40, 49);
-            border: 2px solid rgb(0, 173, 181);
-          "
-        >
-          🔄 Refresh
+          🍾 Insert Bottle
         </button>
       </div>
 
@@ -571,8 +529,8 @@
           } else {
             statusDisplay.className = "status-display no-motion";
             statusText.textContent = "⚫ Session Inactive";
-            sessionHint.textContent = 'Click "Start Session" to begin';
-            sessionBtn.textContent = "🚀 Start Session";
+            sessionHint.textContent = "Ready to accept bottles";
+            sessionBtn.textContent = "🍾 Insert Bottle";
             sessionBtn.onclick = startSession;
             sessionBtn.style.background = "rgb(0, 173, 181)";
             sessionBtn.style.boxShadow = "0 4px 15px rgba(0, 173, 181, 0.3)";

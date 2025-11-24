@@ -92,9 +92,6 @@
         gap: 15px;
         margin: 20px 0;
       }
-      .info-card:last-child {
-        grid-column: 1 / -1;
-      }
       .info-card {
         background: rgb(34, 40, 49);
         border-radius: 10px;
@@ -352,50 +349,6 @@
       </div>
 
       <div class="error-message" id="errorMessage"></div>
-
-      <!-- Main Control Button -->
-      <div style="margin: 20px 0">
-        <button
-          class="btn"
-          id="sessionBtn"
-          onclick="startSession()"
-          style="
-            font-size: 1.2em;
-            padding: 15px 40px;
-            background: rgb(0, 173, 181);
-            box-shadow: 0 4px 15px rgba(0, 173, 181, 0.3);
-          "
-        >
-          🍾 Insert Bottle
-        </button>
-      </div>
-
-      <div style="margin-top: 20px">
-        <a
-          href="/guide"
-          class="btn"
-          style="
-            background: rgb(34, 40, 49);
-            border: 2px solid rgb(0, 173, 181);
-            text-decoration: none;
-            display: inline-block;
-          "
-        >
-          📖 User Manual
-        </a>
-        <a
-          href="/qrcode"
-          class="btn"
-          style="
-            background: rgb(34, 40, 49);
-            border: 2px solid rgb(0, 173, 181);
-            text-decoration: none;
-            display: inline-block;
-          "
-        >
-          📱 QR Code
-        </a>
-      </div>
 
       <div class="footer">Auto-updating • 5 minutes per bottle</div>
     </div>
